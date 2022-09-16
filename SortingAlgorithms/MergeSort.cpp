@@ -1,12 +1,13 @@
 #include <iostream>
 #include <vector>
 
+// Complexity: O(nlogn)
 
-// Merge sort with a type E, and a function C
+// Merge sort with a data type E, and a function C
 template <typename E, typename C>
 void mergeSort(std::vector<E>& S, const C& func) {
     typedef typename std::vector<E>::iterator Itor;
-    int n = S.size();
+    size_t n = S.size();
     // If the length of the list is less than or equal to 1, list is already sorted: return
     if(n <= 1) return;
 
@@ -57,11 +58,17 @@ void printList(std::vector<E> S) {
     for(auto e : S) std::cout << e << std::endl;
 }
 
-
 int main() {
     
     std::vector<int> arr {3, 7, 1, 9, 3, 7, 12345, 753, 74556, 234};
+
+    // The second argument is a lambda function: a function without a name.
+    // This lambda function returns a boolean: a < b.
+    // You can pass in any type of function, as long as it returns a boolean.
+    // This lambda function will result in an array sorted from the smallest integer to the largest
+    // However, an array doesn't have to be sorted from smallest to largest, an array can be sorted whichever way you want
     mergeSort(arr, [](int a, int b) { return a < b; });
+    // Finally, print the list
     printList(arr);
 
 }
