@@ -37,7 +37,7 @@ void merge(std::vector<E>& S1, std::vector<E>& S2, std::vector<E>& S, const C& f
     typedef typename std::vector<E>::iterator Itor;
     Itor p1 = S1.begin();
     Itor p2 = S2.begin();
-    // Compare p1 and p2 and push into S until the iterators have reached the end
+    // Compare the elements of S1 and S2
     // Note how p1 and p2 are able to iterate independently with this while loop -> advantage over a for loop
     while(p1 != S1.end() && p2 != S2.end()) {
         if(func(*p1, *p2)) {
@@ -46,7 +46,7 @@ void merge(std::vector<E>& S1, std::vector<E>& S2, std::vector<E>& S, const C& f
             S.push_back(*p2++);
         }
     }
-    // no clue why this is here honestly
+    // After comparison, push all sorted values
     while(p1 != S1.end()) S.push_back(*p1++);
     while(p2 != S2.end()) S.push_back(*p2++);
 }
