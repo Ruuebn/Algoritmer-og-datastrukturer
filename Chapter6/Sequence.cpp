@@ -26,6 +26,8 @@ public:
 // And implementation from Sequence class
 template <typename E, typename C>
 void bubbleSort(Sequence<E>& seq, const C& comp) {
+    // If sequence is empty or has one element, already sorted
+    if(seq.size() <= 1) return;
     for(size_t i = 0; i < seq.size() - 1; ++i) {
         // Loop containing variable j will decrease by 1 each iteration of i
         for(size_t j = 0; j < seq.size() - 1 - i; ++j) {
