@@ -1,55 +1,89 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
-int n; // size
+template <class T>
+class MinHeap {
+private:
+    std::vector<T> items;
+public:
+    MinHeap() {}
 
-// The children of the parent node at index i is at:
-// Left child: 2i + 1
-// Right child: 2i + 2
+    int leftChildIdx(int parentIdx) { return 2 * parentIdx + 1; }
+    int rightChildIdx(int parentIdx) { return 2 * parentIdx + 2; }
+    int parentIdx(int childIdx) { return (childIdx - 1) / 2; }
 
-void heapify(int arr[], int i) {
-    int smallest = i;
-    int l = 2 * i + 1; // left child node
-    int r = 2 * i + 2; // right child node
+    bool hasRightChild(int idx) { return rightChildIdx(idx) < items.size(); }
+    bool hasLeftChild(int idx) { return leftChildIdx(idx) < items.size(); }
+    bool hasParent(int idx) { return parentIdx(idx) >= 0; }
 
-    // Check if left child is smaller than its parent
-    if (l < n && arr[l] < arr[smallest]) smallest = l;
+    T leftChild(int idx) { return items[leftChildIdx(idx)]; }
+    T rightChild(int idx) { return items[rightChildIdx(idx)]; }
+    T parent(int idx) { return items[parentIdx(idx)]; }
 
-    // Check if right child is smaller than smallest
-    if (r < n && arr[r] < arr[smallest]) smallest = r;
-
-    // If smallest is not parent
-    if (smallest != i) {
-        std::swap(arr[i], arr[smallest]);
-        // Recursively heapify the affected sub-tree
-        heapify(arr, smallest);
+    void swap(int idx, int jdx) {
+        std::swap(items[idx], items[jdx]);
     }
-}
 
-void buildHeap(int arr[]) {
-    // Perform level order traversal from last non-leaf node and heapify each node
-    for (int i = n; i >= 0; i--) {
-        heapify(arr, i);
+    T peek() {
+        return items[0];
     }
-}
+
+    T poll() {
+        T item = items[0];
+        items[0] = items[items.size() - 1];
+        items.erase(items.end() - 1);
+        heapifyDown();
+        return item;
+    }
+
+    void add(T item) {
+        items.push_back(item);
+        heapifyUp();
+    }
+
+    void heapifyUp() {
+        int idx = items.size() - 1;
+        while(hasParent(idx) && (parent(idx) > items[idx])) {
+            swap(parentIdx(idx), idx);
+            idx = parentIdx(idx);
+        }
+    }
+
+    void heapifyDown() {
+        int idx = 0;
+        while(hasLeftChild(idx)) {
+            int smallerChildIdx = leftChildIdx(idx);
+            if(hasRightChild(idx) && (rightChild(idx) < leftChild(idx))) {
+                smallerChildIdx = rightChildIdx(idx);
+            }
+            if(items[idx] < items[smallerChildIdx]) {
+                break;
+            } else {
+                swap(idx, smallerChildIdx);
+            }
+            idx = smallerChildIdx;
+        }
+    }
+
+    void displayHeap() {
+        for(auto e : items) 
+            std::cout << e << " ";
+        std::cout << std::endl;
+    }
+
+    
+};
 
 int main() {
-    int arr[] = { 4, 7, 2, 1, 3 };
+    MinHeap<int> heap;
 
-    n = sizeof(arr) / sizeof(arr[0]);
+    int list[] = {3, 2, 9, 10, 14, 5, 32, 26};
 
-    std::cout << "Array representation before buildHeap is: " << std::endl;
-    for (int i = 0; i < n; i++) {
-        std::cout << arr[i] << " ";
-    }
-    std::cout << std::endl;
-
-    buildHeap(arr);
-
-    std::cout << "Array representation after buildHeap is: " << std::endl;
-
-    for (int i = 0; i < n; i++) {
-        std::cout << arr[i] << " ";
+    for(auto e : list) {
+        heap.add(e);
     }
 
-    return 0;
+    heap.displayHeap();
+
 }
