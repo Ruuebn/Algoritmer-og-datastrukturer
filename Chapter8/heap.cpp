@@ -6,8 +6,6 @@ template <class T>
 class MinHeap {
 private:
     std::vector<T> items;
-public:
-    MinHeap() {}
 
     int leftChildIdx(int parentIdx) { return 2 * parentIdx + 1; }
     int rightChildIdx(int parentIdx) { return 2 * parentIdx + 2; }
@@ -24,6 +22,9 @@ public:
     void swap(int idx, int jdx) {
         std::swap(items[idx], items[jdx]);
     }
+    
+public:
+    MinHeap() {}
 
     T peek() {
         return items[0];
