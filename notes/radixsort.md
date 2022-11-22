@@ -27,6 +27,7 @@ Radix sort is to do digit by digit sort from LSD to MSD
             1: 1465
             out: 273, 383, 462, 722, 1465
         - Note that we did not have to sort the contents of the buckets, it happened by itself
+        - The buckets may be implemented as queues, since you need the FIFO structure for it to make sense when you put the items back into the original list
 
 Bucket sort
     - Make buckets with an identifier for each item from your list
