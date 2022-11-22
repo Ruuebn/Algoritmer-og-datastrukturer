@@ -95,3 +95,23 @@ A type of (2, 4) tree
             - Z.uncle = black(triangle) - triangle means when Z is a left child, and its parent is a right child (of Z's grandparent - it kind of looks like a triangle)
                                         - or opposite -> when Z is a right child, and its parent is a left child
                 - rotate Z.parent
+                    - If A is Z.parent, then Z takes A's space. if Z is left child of A, A becomes Z's right child. and opposite
+            - Z.uncle = black(line) - line means the identifier looks like a line. Z is a left child, and its parent is also a left child
+                                    - or Z is a right child, and its parent is also a right child
+                - rotate Z.grandparent
+                    - If B is Z.grandparent, and A is Z.parent, they are all right children
+                        - B becomes A's left child, A's left subtree becomes B's right subtree, and Z stays A's right child
+                        - Recolor after rotation
+        
+        - Insertion example
+            - Insert 15
+                - All inserted nodes are red, but since 15 is the root, color it black
+            - Insert 5
+                - This insertion does not result in a violation
+            - Insert 1
+                - Violation, 5 is a red node, and 1 is a red node as well as being the left child of 5. The identifier becomes a line
+                - Third case. We rotate 1's grandparent in the opposite direction of 1 (to the right)
+                - 5 is now the root, its left child 1, right child 15
+                - Recolor the parent and the grandparent. 5=black,15=red,1=red
+            
+                        

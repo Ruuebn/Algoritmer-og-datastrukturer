@@ -1,32 +1,53 @@
 #include <iostream>
 
+enum Color {RED, BLACK};
+
+template <typename T>
 class Node {
 private:
-    int data;
-    Node* left;
-    Node* right;
-    bool isRed = false;
-
-    Node* makeNode(int val) {
-        Node* node = new Node(val);
-        node->left = node->right = nullptr;
-        return node;
-    }
-
+    Color col;
+protected:
+    typedef typename E::Key K;
+    typedef typename E::Value V;
+    Color color() { return col; }
+    bool isRed() { return col == RED; }
+    bool isBlack() { return col == BLACK; }
+    void setColor(Color c) { col = c; }
 public:
-    Node(int val) : data{ val } {}
+    Node(const K& k == K(), const V& v = V()) : E(k, v), col(BLACK) {}
+    friend class NodeTree<T>;
 
-    Node* pushNode(int val, Node* node) {
+};
 
-        if(val < node->data) {
-            
+template <typename T>
+class NodeTree : public SearchTree<Node<T>> {
+public:
+    typedef Node<T> Node;
+    typedef typename SearchTree<Node>::Iterator Iterator;
+protected:
+    typedef typename Node::Key K;
+    typedef typename Node::Value V;
+    typedef SearchTree<Node> ST;
+    typedef typename ST::TPos TPos;
+public:
+
+    NodeTree();
+    Iterator insert(const K& k, const V& x) {
+        TPos v = inserter(k, x);
+        if(v == ST::root()) {
+            setBlack(v);
         }
-
-        if(val > node->data) {
-
+        else {
+            setRed(v);
+            remedyDoubleRed(v);
         }
-
+        return Iterator(v);
     }
+    void erase(const K& k) throw(NonexistentElement);
+    void erase(const Iterator& p);
 
+protected:
+    void remedyDoubleRed(const TPos& z);
+    void remedyDoubleBlack(const TPos& r);
 };
 
