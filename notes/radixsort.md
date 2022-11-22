@@ -52,3 +52,16 @@ Bucket sort
                 [0.7-0.8): .76
             - When putting the list back together, sort each bucket, as the elements that were put in, were only put in sequential order, not sorted order
             - Then they are put back into the list: [0.32, 0.34, 0.35, 0.64, 0.65, 0.76]
+
+Selection sort
+    - Very simple to implement
+    - Example list: [2, 8, 5, 3, 9, 4, 1]
+    - Start at the beginning of the list, and keep track of the current minimum
+    - We start at 2 [0], and iterate through the list until we find a smaller number. When we do, swap the zeroth place with the current minimum
+        - This results in [1, 8, 5, 3, 9, 2]
+    - Continue in this manner until the list is sorted
+        [1, 8, 5, 3, 9, 2] -> swap [1] and [5] (swap 8 and 2)
+        [1, 2, 5, 3, 9, 8] -> swap [2] and [3] (swap 5 and 3)
+        [1, 2, 3, 5, 9, 8] -> do nothing, as the number is in the correct spot
+        [1, 2, 3, 5, 9, 8] -> swap [4] and [5] (swap 9 and 8)
+        [1, 2, 3, 5, 8, 9]
